@@ -1,0 +1,120 @@
+{% include 'base.html' %}
+
+
+{% block header_scripts %}
+<script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
+{% endblock header_scripts %}
+
+
+{% block content_body %}
+<div style="width:100%;">
+  <h1 style="text-align:center;">{{coin.coin_name}}</h1>
+  <div style="width:100%;">
+  <div style="width:33%; text-algin:left;display:inline-block;margin:10px;"></div>
+  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="forn-size: xxx-large;"></span></div>
+  <div style="text-align:right;width:33%;display:inline-block; margin:10px;padding:5px;"></div>
+  </div>
+</div>
+<div id="chartDiv" style="max-width: 740px;height: 400px;margin: 0px auto;"></div>
+
+{% endblock content_body %}
+
+
+
+
+{% block scripts %}
+<script type="text/javascript">
+
+
+
+let headers= {
+  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+};
+let options = {
+  method: 'POST',
+  mode: 'cors',
+  headers: headers,
+  body: 'sym={{coin.coin_name}}&exc=eur&limit=30',
+};
+
+
+window.postJson = function(options){
+  return fetch('http://localhost:5000/historical', options).then((res) => {return res.json()});
+}
+
+
+
+
+async function chart(){
+    points = [];
+    const json = await postJson(options).then((data) => {
+        for (let i = 0; i < data['Array'].length; i++) {   
+            parcel = data['Array'][i];
+            points[i] = [parcel['time'], parseFloat(parcel['open']), parseFloat(parcel['low']), parseFloat(parcel['high']),  parseFloat(parcel['close'])];
+        }
+    })
+      var chart = JSC.chart('chartDiv', {
+        debug: true,
+        type: 'candlestick',
+        palette: 'fiveColor18',
+        legend: {
+          template: '{{coin.coin_name}}',
+          position: 'inside top left'
+        },
+        yAxis: {
+          formatString: 'c',
+          markers: [
+            /* The legend entry is unified into only the support marker to represent both support and resistance. */
+            {
+              value: 102.2,
+              color: 'crimson',
+              label: { text: 'Resistance', align: 'center' },
+              legendEntry_visible: false
+            },
+            {
+              value: 91,
+              color: 'crimson',
+              label: { text: 'Support', align: 'center' },
+              legendEntry_name: 'Support/Resistance'
+            }
+          ]
+        },
+        xAxis_crosshair_enabled: true,
+        defaultPoint: {
+          outline_width: 0,
+          altColor: '#ff4734',
+          color: '#33ae5b',
+          subvalue_line_color: '#555',
+          tooltip: tooltip
+        },
+        xAxis_scale_type: 'time',
+        series: [
+          {
+            name: '{{coin.coin_name}}',
+            points: points
+          }
+        ]
+      });
+      function tooltip(point) {
+        var color = point.options('close') > point.options('open') ? 'green' : 'red';
+        return (
+          'Change: <span style="color:' +
+          color +
+          '">{%close-%open}</span><br>Open: %open<br/>High: %high<br/>Low: %low<br/>Close: %close'
+        );
+      }
+
+    }
+
+chart();
+
+
+
+
+
+</script>
+
+
+
+
+{% endblock scripts %}

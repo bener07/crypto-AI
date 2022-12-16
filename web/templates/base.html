@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block header_scripts %}{% endblock header_scripts %}
+    </head>
+    <body style="width:100%;color: white; background: black; font-family: calibri;">
+
+        {% block content_body %}{% endblock content_body %}
+
+{% comment %} <div style="width: 100%; height:100px;background:black;color:white; font-family:calibri;"></div> {% endcomment %}
+{% block scripts %}{% endblock scripts %}
+    </body>
+</html>

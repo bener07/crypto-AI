@@ -1,0 +1,96 @@
+{% include 'base.html' %}
+
+
+{% block header_scripts %}
+<script src="https://code.jscharting.com/2.9.0/jscharting.js"></script>
+{% endblock header_scripts %}
+
+
+{% block content_body %}
+<div style="width:100%;">
+  <h1 style="text-align:center;">{{coin.coin_name}}</h1>
+  <div style="width:100%;">
+  <div style="width:33%; text-algin:left;display:inline-block;margin:10px;"></div>
+  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="forn-size: xxx-large;"></span></div>
+  <div style="text-align:right;width:33%;display:inline-block; margin:10px;padding:5px;"></div>
+  </div>
+</div>
+<div id="chartDiv" style="max-width: 740px;height: 400px;margin: 0px auto;"></div>
+
+{% endblock content_body %}
+
+
+
+
+{% block scripts %}
+<script type="text/javascript">
+
+
+
+let headers= {
+  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+};
+let options = {
+  method: 'POST',
+  mode: 'cors',
+  headers: headers,
+  body: 'sym=btc&exc=eur&',
+};
+
+
+window.postJson = function(options){
+  return fetch('http://localhost:5000/csvs/{{coin.coin_name}}', options).then((res) => {return res.json()});
+}
+
+
+      /*
+A finance line chart.
+Learn how to:
+
+  - Draw a finance line chart.
+*/
+      // JS
+async function chart(){
+  points = [];
+
+  const json = await postJson(options).then((data) =>{ for( i = 0; i < data['Array'].length; i++){
+    points[i] = [data['Array'][i][0], parseFloat(data['Array'][i][1])];
+  } 
+  if ((data['Array'][(data['Array'].length)-1][1] - data['Array'][(data['Array'].length)-2][1]) > 0){
+    document.getElementById('price').style = "color: green;";
+  }
+  else {
+    document.getElementById('price').style = "color: red;";
+  }
+  document.getElementById('price').innerHTML = data['Array'][(data['Array'].length)-1][1] } );
+    var chart = JSC.chart('chartDiv', {
+      debug: false,
+      type: 'line',
+      legend: {
+        template: '{{coin.coin_name}}',
+        position: 'inside top left'
+      },
+      defaultPoint_marker_type: 'none',
+      xAxis_crosshair_enabled: true,
+      yAxis_formatString: 'a',
+      series: [
+        {
+          name: '{{coin.coin_name}}',
+          points: points
+        }
+      ]
+    });
+  function tooltip(point) {
+  var color = point.options('close') > point.options('open') ? 'green' : 'red';
+  return (
+      'Change: <span style="color:' +
+      color +
+      '"><b>{%close-%open}</b></span><br>Open: %open<br/>High: %high<br/>Low: %low<br/>Close: %close'
+  );
+  }
+}
+chart();
+
+</script>
+
+{% endblock scripts %}

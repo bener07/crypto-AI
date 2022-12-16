@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+
+{% block title %}Index Page{% endblock title %}
+
+{% block content_body %}Following coins: <br> {% for coin in coins %} Name: <a href="/coin/{{coin.id}}">{{coin.coin_name}}</a> Price: {{ coin.price }} <br> {% endfor %} {% endblock content_body %}

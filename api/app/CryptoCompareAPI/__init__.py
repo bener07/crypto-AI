@@ -21,6 +21,7 @@ class api(crypto):
         url = f'https://min-api.cryptocompare.com/data/v2/histoday?fsym={exc}&tsym={sym}&limit={limit}&api_key={self.api_key}'
         r = requests.get(url).json()
         for i in r.get('Data').get('Data'):
+            # filtrar a informação da API da CryptoCompare
             json = {
                 'time': i.get('time'),
                 'high': (i.get('high')),

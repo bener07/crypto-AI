@@ -63,7 +63,7 @@ def history():
     exc = request.form.get('exc').upper()
     limit = request.form.get('limit')
     print(sym, exc, limit)
-    if limit is None: 
+    if limit is None:
         limit = 10
     return {'Array': list(Api.history(sym, exc, limit))}
 
@@ -74,7 +74,7 @@ def historyt():
     exc = request.form.get('exc').upper()
     limit = request.form.get('limit')
     print(sym, exc, limit)
-    if limit is None: 
+    if limit is None:
         limit = 10
     return {'Array': list(Api.historyt(sym, exc, limit))}
 

@@ -11,7 +11,7 @@ class crypto:
         r = requests.get(url).json()
         for i in range(0, int(limit)):
             yield r['Data'][i]['CoinInfo']['Name']
-        return 
+        return
 
 
 
@@ -22,14 +22,14 @@ class api(crypto):
         r = requests.get(url).json()
         for i in r.get('Data').get('Data'):
             json = {
-                'time': time.ctime(i.get('time')),
-                'high': "{:f}".format(i.get('high')),
-                'low': "{:f}".format(i.get('low')),
-                'open': "{:f}".format(i.get('open')),
-                'close': "{:f}".format(i.get('close')),
+                'time': i.get('time'),
+                'high': (i.get('high')),
+                'low': (i.get('low')),
+                'open': (i.get('open')),
+                'close': (i.get('close')),
             }
             yield json
-        return 
+        return
 
 
     def historyt(self, sym, exc, limit):
@@ -44,7 +44,8 @@ class api(crypto):
                 'close': "{:f}".format(i.get('close')),
             }
             yield json
-        return 
+        return
+
 
     def price(self, *args):
         """

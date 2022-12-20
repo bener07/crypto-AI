@@ -69,6 +69,7 @@ def history():
 
 
 @app.route('/historytimestamp', methods=methods)
+@cross_origin(methods=['POST'])
 def historyt():
     sym = request.form.get('sym').upper()
     exc = request.form.get('exc').upper()

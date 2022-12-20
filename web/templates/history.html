@@ -10,8 +10,8 @@
 <div style="width:100%;">
   <h1 style="text-align:center;">{{coin.coin_name}}</h1>
   <div style="width:100%;">
-  <div style="width:33%; text-algin:left;display:inline-block;margin:10px;"></div>
-  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="forn-size: xxx-large;"></span></div>
+  <div style="width:33%; text-align:left;display:inline-block;margin:10px;"></div>
+  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="font-size: xxx-large;"></span>€</div>
   <div style="text-align:right;width:33%;display:inline-block; margin:10px;padding:5px;"></div>
   </div>
 </div>
@@ -25,6 +25,7 @@
 {% block scripts %}
 <script type="text/javascript">
 
+let limit = 90;
 
 
 let headers= {
@@ -34,12 +35,12 @@ let options = {
   method: 'POST',
   mode: 'cors',
   headers: headers,
-  body: 'sym={{coin.coin_name}}&exc=eur&limit=30',
+  body: 'sym={{coin.coin_name}}&exc=eur&limit='+limit,
 };
 
 
 window.postJson = function(options){
-  return fetch('http://localhost:5000/historical', options).then((res) => {return res.json()});
+  return fetch('http://localhost:5000/historytimestamp', options).then((res) => {return res.json()});
 }
 
 
@@ -48,9 +49,9 @@ window.postJson = function(options){
 async function chart(){
     points = [];
     const json = await postJson(options).then((data) => {
-        for (let i = 0; i < data['Array'].length; i++) {   
+        for (let i = 0; i < data['Array'].length; i++) {
             parcel = data['Array'][i];
-            points[i] = [parcel['time'], parseFloat(parcel['open']), parseFloat(parcel['low']), parseFloat(parcel['high']),  parseFloat(parcel['close'])];
+            points[i] = [parcel['time'], (parcel['open']), (parcel['low']), (parcel['high']),  (parcel['close'])];
         }
     })
       var chart = JSC.chart('chartDiv', {
@@ -87,7 +88,7 @@ async function chart(){
           subvalue_line_color: '#555',
           tooltip: tooltip
         },
-        xAxis_scale_type: 'time',
+        xAxis_scale_type: 'price',
         series: [
           {
             name: '{{coin.coin_name}}',
@@ -95,6 +96,7 @@ async function chart(){
           }
         ]
       });
+      console.log(points);
       function tooltip(point) {
         var color = point.options('close') > point.options('open') ? 'green' : 'red';
         return (
@@ -103,6 +105,9 @@ async function chart(){
           '">{%close-%open}</span><br>Open: %open<br/>High: %high<br/>Low: %low<br/>Close: %close'
         );
       }
+      var color = points[limit][4] > points[limit][1] ? 'green' : 'red';
+      document.getElementById('price').style = 'color: '+color;
+      document.getElementById('price').innerHTML = points[limit][3];
 
     }
 

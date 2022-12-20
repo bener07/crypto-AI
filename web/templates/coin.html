@@ -10,8 +10,8 @@
 <div style="width:100%;">
   <h1 style="text-align:center;">{{coin.coin_name}}</h1>
   <div style="width:100%;">
-  <div style="width:33%; text-algin:left;display:inline-block;margin:10px;"></div>
-  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="forn-size: xxx-large;"></span></div>
+  <div style="width:33%; text-align:left;display:inline-block;margin:10px;"></div>
+  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="font-size: xxx-large;"></span></div>
   <div style="text-align:right;width:33%;display:inline-block; margin:10px;padding:5px;"></div>
   </div>
 </div>
@@ -55,7 +55,7 @@ async function chart(){
 
   const json = await postJson(options).then((data) =>{ for( i = 0; i < data['Array'].length; i++){
     points[i] = [data['Array'][i][0], parseFloat(data['Array'][i][1])];
-  } 
+  }
   if ((data['Array'][(data['Array'].length)-1][1] - data['Array'][(data['Array'].length)-2][1]) > 0){
     document.getElementById('price').style = "color: green;";
   }

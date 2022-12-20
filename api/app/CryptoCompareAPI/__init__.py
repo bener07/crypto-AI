@@ -1,6 +1,6 @@
 import requests
 import time
-
+from datetime import datetime
 class crypto:
     def __init__(self, api_key):
         self.api_key = api_key
@@ -34,15 +34,15 @@ class api(crypto):
 
 
     def historyt(self, sym, exc, limit):
-        url = f'https://min-api.cryptocompare.com/data/v2/histoday?fsym={exc}&tsym={sym}&limit={limit}&api_key={self.api_key}'
+        url = f'https://min-api.cryptocompare.com/data/v2/histoday?tsym={exc}&fsym={sym}&limit={limit}&api_key={self.api_key}'
         r = requests.get(url).json()
         for i in r.get('Data').get('Data'):
             json = {
-                'time': i.get('time'),
-                'high': "{:f}".format(i.get('high')),
-                'low': "{:f}".format(i.get('low')),
-                'open': "{:f}".format(i.get('open')),
-                'close': "{:f}".format(i.get('close')),
+                'time': datetime.fromtimestamp(i.get('time')).strftime('%d/%m/%y'),
+                'high': i.get('high'),
+                'low': i.get('low'),
+                'open': i.get('open'),
+                'close': i.get('close'),
             }
             yield json
         return

@@ -5,7 +5,6 @@ sys.path.insert(0, '/com.docker.devenvironments.code/crypto_wallet/')
 import os, django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'crypto_wallet.settings')
 django.setup()
-import threading
 from database.models import coins
 
 def main():

@@ -41,6 +41,7 @@ def csvData(coin_directory):
 
 @app.route('/price', methods=methods)
 def price():
+    logging.info("Price accessed!")
     sym = request.form.get('sym')
     exc = request.form.get('exc')
     response = Api.price(sym, exc)

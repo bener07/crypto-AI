@@ -1,0 +1,13 @@
+prefix=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask
+exec_prefix=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask
+libdir=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/lib
+sharedlibdir=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/lib
+includedir=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

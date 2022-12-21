@@ -1,0 +1,5 @@
+#!/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/bin/python3.10
+
+import pydoc
+if __name__ == '__main__':
+    pydoc.cli()

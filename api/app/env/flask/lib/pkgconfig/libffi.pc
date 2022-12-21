@@ -1,0 +1,11 @@
+prefix=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+toolexeclibdir=${libdir}
+includedir=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/include
+
+Name: libffi
+Description: Library supporting Foreign Function Interfaces
+Version: 3.4.2
+Libs: -L${toolexeclibdir} -lffi
+Cflags: -I${includedir}

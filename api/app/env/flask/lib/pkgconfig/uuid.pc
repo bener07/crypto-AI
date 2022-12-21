@@ -1,0 +1,11 @@
+prefix=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask
+exec_prefix=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask
+libdir=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/lib
+includedir=/home/desktop/Desktop/AI/crypto-AI/api/app/env/flask/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.32.1
+Requires:
+Cflags: -I${includedir}/uuid
+Libs: -L${libdir} -luuid

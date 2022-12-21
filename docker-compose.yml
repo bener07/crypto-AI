@@ -1,10 +1,13 @@
-version: 3.2
+version: '3.2'
 services:
-    web:
-      build: ./web
-      ports:
-        - 8080:8080
+#   web:
+#     build: ./web
+#     ports:
+#        - 8080:8080
     api:
       build: ./api
+      volumes:
+        - ./api/app/Docker:/app
+        - ./api/app/csvs:/csvs
       ports:
         - 5000:5000

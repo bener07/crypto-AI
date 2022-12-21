@@ -1,15 +1,15 @@
 from flask import Flask, request
 from CryptoCompareAPI import api
 from flask_cors import cross_origin
-import time
-import logging, sys
+import time, logging
 
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = ['Content-type, application/json']
 app.config['CORS_RESOURCES'] = {r'/*': {"origins": "*"}}
 Api = api('8807a578d9a3dd4ad7f132d2f3934d6da75cf68eaf267be1fea2572ef70f92bd')
 methods = ['POST']
-handler = logging.StreamHandler(sys.stdout)
+log_message = lambda message: app.logger.warning(message)
+
 
 def getCsvsData(name):
     import csv
@@ -41,7 +41,8 @@ def csvData(coin_directory):
 
 @app.route('/price', methods=methods)
 def price():
-    logging.info("Price accessed!")
+    log_message("Hello person!")
+    app.logger.warning("")
     sym = request.form.get('sym')
     exc = request.form.get('exc')
     response = Api.price(sym, exc)
@@ -92,4 +93,7 @@ def social():
 
 
 if __name__ == '__main__':
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
     app.run(host='0.0.0.0', port=5000, debug=True)

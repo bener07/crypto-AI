@@ -18,8 +18,8 @@ from django.urls import include, path
 from database.views import home, coin, history
 
 urlpatterns = [
+    path('', home),
     path('admin/', admin.site.urls),
-    path('home', home),
     path('coin/<id>', coin),
     path('history/<id>', history),
 ]

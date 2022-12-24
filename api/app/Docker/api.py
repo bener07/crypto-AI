@@ -57,7 +57,7 @@ def top_coins():
     return {'top': tuple(Api.top(limit, sym))}
 
 
-@app.route('/historical', methods=methods)
+@app.route('/histohour', methods=methods)
 @cross_origin(methods=['POST'])
 def history():
     sym = request.form.get('sym').upper()
@@ -66,19 +66,19 @@ def history():
     print(sym, exc, limit)
     if limit is None:
         limit = 10
-    return {'Array': list(Api.history(sym, exc, limit))}
+    return {'Array': list(Api.histohour(sym, exc, limit))}
 
 
-@app.route('/historytimestamp', methods=methods)
+@app.route('/histoday', methods=methods)
 @cross_origin(methods=['POST'])
-def historyt():
+def histodays():
     sym = request.form.get('sym').upper()
     exc = request.form.get('exc').upper()
     limit = request.form.get('limit')
     print(sym, exc, limit)
     if limit is None:
         limit = 10
-    return {'Array': list(Api.historyt(sym, exc, limit))}
+    return {'Array': list(Api.histodays(sym, exc, limit))}
 
 
 @app.route('/mining', methods=methods)

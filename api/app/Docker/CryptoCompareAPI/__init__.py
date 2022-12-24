@@ -17,8 +17,8 @@ class crypto:
 
 class api(crypto):
 
-    def history(self, sym, exc, limit):
-        url = f'https://min-api.cryptocompare.com/data/v2/histoday?fsym={exc}&tsym={sym}&limit={limit}&api_key={self.api_key}'
+    def histohour(self, sym, exc, limit):
+        url = f'https://min-api.cryptocompare.com/data/v2/histohour?tsym={exc}&fsym={sym}&limit={limit}&api_key={self.api_key}'
         r = requests.get(url).json()
         for i in r.get('Data').get('Data'):
             # filtrar a informação da API da CryptoCompare
@@ -33,7 +33,7 @@ class api(crypto):
         return
 
 
-    def historyt(self, sym, exc, limit):
+    def histodays(self, sym, exc, limit):
         url = f'https://min-api.cryptocompare.com/data/v2/histoday?tsym={exc}&fsym={sym}&limit={limit}&api_key={self.api_key}'
         r = requests.get(url).json()
         for i in r.get('Data').get('Data'):

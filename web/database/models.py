@@ -17,7 +17,7 @@ class coins(models.Model):
         if coins.objects.filter(coin_name=coin_name.upper()):
             raise KeyError('Impossible to add coin, already in database')
         return coins.objects.create(coin_name=coin_name.upper(), price=price)
-    
+
 
     def remove_coin(coin_name):
         return coins.objects.delete(coin_name=coin_name.upper())
@@ -25,7 +25,6 @@ class coins(models.Model):
 
     def current_coins():
         return coins.objects.all()
-    
 
     def update_price(c_name, price):
         return coins.objects.filter(coin_name=c_name).update(price=price)

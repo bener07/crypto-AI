@@ -11,7 +11,19 @@
   <h1 style="text-align:center;">{{coin.coin_name}}</h1>
   <div style="width:100%;">
   <div style="width:33%; text-align:left;display:inline-block;margin:10px;"></div>
-  <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="font-size: xxx-large;"></span>€</div>
+    <div style="display:inline-block;width:30%;font-size:x-large;">Price: <span id="price" style="font-size: xxx-large;"></span>€
+      <div style="margin:20px 0 5px 0;padding:5px;width:80%;text-align:right;position: relative;float:right;text-align: left;">
+        <div style="font-size:large;display: grid;">
+        <span><label>Limit: </label><input type="number" id="limit" style="padding:5px;width:5pc;border-radius: 15px;"></span><br>
+        <span><label>Time Period: </label><input style="padding:5px;width:5pc;border-radius: 15px;" list="time_periods" name="time" id="time"></span>
+        <datalist id="time_periods">
+          <option value="hour"></option>
+          <option value="day"></option>
+        </datalist>
+        <button onclick="chart();">Search</button>
+        </div>
+      </div>
+    </div>
   <div style="text-align:right;width:33%;display:inline-block; margin:10px;padding:5px;"></div>
   </div>
 </div>
@@ -25,28 +37,31 @@
 {% block scripts %}
 <script type="text/javascript">
 
-let limit = 90;
-
-
-let headers= {
-  "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-};
-let options = {
-  method: 'POST',
-  mode: 'cors',
-  headers: headers,
-  body: 'sym={{coin.coin_name}}&exc=eur&limit='+limit,
-};
-
-
-window.postJson = function(options){
-  return fetch('http://localhost:5000/historytimestamp', options).then((res) => {return res.json()});
-}
-
-
-
-
 async function chart(){
+    var time_period = document.getElementById('time').value;
+    if (time_period == 'hour')
+      endpoint = 'histohour';
+    if (time_period == 'day')
+      endpoint = 'histoday';
+    let limit = document.getElementById('limit').value || 90;
+    console.log(limit);
+    console.log(document.getElementById('limit').value);
+
+    let headers= {
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+    };
+    let options = {
+      method: 'POST',
+      mode: 'cors',
+      headers: headers,
+      body: 'sym={{coin.coin_name}}&exc=eur&limit='+limit,
+    };
+
+    var endpoint = "histohour";
+
+    window.postJson = function(options){
+      return fetch('http://localhost:5000/'+endpoint, options).then((res) => {return res.json()});
+    }
     points = [];
     const json = await postJson(options).then((data) => {
         for (let i = 0; i < data['Array'].length; i++) {
@@ -80,7 +95,7 @@ async function chart(){
             }
           ]
         },
-        xAxis_crosshair_enabled: true,
+        xAxis_crosshair_enabled: 'time',
         defaultPoint: {
           outline_width: 0,
           altColor: '#ff4734',
@@ -109,7 +124,7 @@ async function chart(){
       document.getElementById('price').style = 'color: '+color;
       document.getElementById('price').innerHTML = points[limit][3];
 
-    }
+  }
 
 chart();
 

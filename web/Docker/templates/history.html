@@ -37,8 +37,9 @@
 {% block scripts %}
 <script type="text/javascript">
 
-async function chart(){
+  async function chart(){
     var time_period = document.getElementById('time').value;
+    var endpoint = "histohour";
     if (time_period == 'hour')
       endpoint = 'histohour';
     if (time_period == 'day')
@@ -57,10 +58,9 @@ async function chart(){
       body: 'sym={{coin.coin_name}}&exc=eur&limit='+limit,
     };
 
-    var endpoint = "histohour";
 
     window.postJson = function(options){
-      return fetch('http://localhost:5000/'+endpoint, options).then((res) => {return res.json()});
+      return fetch('http://api'+endpoint, options).then((res) => {return res.json()});
     }
     points = [];
     const json = await postJson(options).then((data) => {

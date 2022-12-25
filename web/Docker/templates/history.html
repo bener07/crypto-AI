@@ -60,7 +60,7 @@
 
 
     window.postJson = function(options){
-      return fetch('http://api'+endpoint, options).then((res) => {return res.json()});
+      return fetch('http://api/'+endpoint, options).then((res) => {return res.json()});
     }
     points = [];
     const json = await postJson(options).then((data) => {

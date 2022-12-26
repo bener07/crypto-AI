@@ -10,7 +10,7 @@ import pandas as pd
 
 def update(*args, limit=10):
     sym, exc, action = args
-    url = f"http://localhost:5000/{action}"
+    url = f"http://127.0.0.1:5000/{action}"
     data = {
         'sym': sym,
         'exc': exc,
@@ -27,8 +27,8 @@ def thread(n):
     cicle=0
     print(f'Coin {n.coin_name :5}:   running!')
     try:
-        os.mkdir(f'../api/app/csvs/{n.coin_name}')
-        open(f'../api/app/csvs/{n.coin_name}/info.csv', 'w').write('Date, Price\n')
+        os.mkdir(f'../../api/app/csvs/{n.coin_name}')
+        open(f'../../api/app/csvs/{n.coin_name}/info.csv', 'w').write('Date, Price\n')
     except FileExistsError:
         pass
     finally:
@@ -41,9 +41,9 @@ def thread(n):
             data = [
             [date, price]
             ]
-
+            coins.objects.filter(coin_name=n.coin_name).update(price=price)
             df = pd.DataFrame(data)
-            df.to_csv(f'../api/app/csvs/{n.coin_name}/info.csv', index=False, mode='a', header=False)
+            df.to_csv(f'../../api/app/csvs/{n.coin_name}/info.csv', index=False, mode='a', header=False)
             print(f'Coin {n.coin_name:5} in cicle {cicle:3}    status:   updated!')
         except:
             print(f'Coin {n.coin_name:5} in cicle {cicle:3}    status:   disconnected!\a\7')

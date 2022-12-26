@@ -37,6 +37,23 @@
 {% block scripts %}
 <script type="text/javascript">
 
+    async function price(){
+      let headers= {
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      };
+      let options = {
+        method: 'POST',
+        mode: 'cors',
+        headers: headers,
+        body: 'sym={{coin.coin_name}}&exc=eur'
+      };
+      return fetch('http://{{ api }}/price', options).then((res) => {return res.json()});
+    }
+    console.log(price().then((res) => {
+      document.getElementById('price').innerHTML = res['price'];
+      console.log(res['price']);
+    }));
+
   async function chart(){
     var time_period = document.getElementById('time').value;
     var endpoint = "histohour";
@@ -45,8 +62,7 @@
     if (time_period == 'day')
       endpoint = 'histoday';
     let limit = document.getElementById('limit').value || 90;
-    console.log(limit);
-    console.log(document.getElementById('limit').value);
+
 
     let headers= {
       "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -57,7 +73,6 @@
       headers: headers,
       body: 'sym={{coin.coin_name}}&exc=eur&limit='+limit,
     };
-
 
     window.postJson = function(options){
       return fetch('http://{{ api }}/'+endpoint, options).then((res) => {return res.json()});
@@ -122,7 +137,7 @@
       }
       var color = points[limit][4] > points[limit][1] ? 'green' : 'red';
       document.getElementById('price').style = 'color: '+color;
-      document.getElementById('price').innerHTML = points[limit][3];
+
 
   }
 

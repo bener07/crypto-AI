@@ -40,9 +40,8 @@ def csvData(coin_directory):
 
 
 @app.route('/price', methods=methods)
+@cross_origin(methods=['POST'])
 def price():
-    log_message("Hello person!")
-    app.logger.warning("")
     sym = request.form.get('sym')
     exc = request.form.get('exc')
     response = Api.price(sym, exc)

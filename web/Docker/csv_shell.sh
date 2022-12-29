@@ -9,16 +9,9 @@ import sys
 
 config = {
     'command_pallete': ">>>",
-    'loggingLevel': 'warning',
+    'loggingLevel': 'info',
 }
 
-def csvs():
-    try:
-        logging.basicConfig(level=config['loggingLevel'])
-    except:
-        print("Check your configurations over loggingLevel")
-    finally:
-        run_csvs()
 
 
 def panel():
@@ -48,9 +41,9 @@ def execute(*args, **kwargs):
             return print("You need to specify more arguments.\nEX: show config")
         if args[1] == 'config':
             return print(config)
-    if args[0] == 'run':
-        if args[1] == 'updater':
-            csvs()
+    # if args[0] == 'run':
+    #     if args[1] == 'updater':
+    #         csvs(
     else:
         print("Command not found!")
 if __name__ == "__main__":

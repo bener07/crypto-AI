@@ -75,7 +75,7 @@ class thread(threading.Thread, threading.Event):
             while not killed:
                 try:
                     cicle += 1
-                    request = update(self.name, 'eur', 'price')
+                    request = update(self.name, 'eur', 'history')
                     date = request.get('time')
                     price = request.get('price')
                     self.config['status'] = "Running"

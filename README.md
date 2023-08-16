@@ -1,3 +1,4 @@
+This project is not finished so some services might not be listed or developed
 # Your private crypto currency program
 Investing is a program made in python with 3 main objects:
 <ul>
